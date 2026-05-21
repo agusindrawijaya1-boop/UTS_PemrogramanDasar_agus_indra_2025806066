@@ -1,25 +1,33 @@
 import json
-import os
 
 FILE_NAME = "scores.json"
 
 
 def load_scores():
-    if not os.path.exists(FILE_NAME):
-        return []
 
     try:
         with open(FILE_NAME, "r") as file:
-            return json.load(file)
-    except:
+            data = json.load(file)
+
+            # Pastikan data berupa list
+            if isinstance(data, list):
+                return data
+            else:
+                return []
+
+    except FileNotFoundError:
+        return []
+
+    except json.JSONDecodeError:
         return []
 
 
-def save_score(player_name, score):
+def save_score(player, score):
+
     scores = load_scores()
 
     scores.append({
-        "name": player_name,
+        "player": player,
         "score": score
     })
 
@@ -28,15 +36,21 @@ def save_score(player_name, score):
 
 
 def show_top_scores():
+
     scores = load_scores()
 
-    sorted_scores = sorted(
-        scores,
-        key=lambda x: x["score"],
-        reverse=True
-    )
+    # Ambil hanya data yang punya key score
+    valid_scores = [s for s in scores if "score" in s and "player" in s]
+
+    # Urutkan dari score terbesar
+    valid_scores.sort(key=lambda x: x.get("score", 0), reverse=True)
 
     print("\n=== TOP 5 SCORE ===")
 
-    for i, player in enumerate(sorted_scores[:5], start=1):
-        print(f"{i}. {player['name']} - {player['score']} pts")
+    if not valid_scores:
+        print("Belum ada score.")
+        return
+
+    for i, data in enumerate(valid_scores[:5], start=1):
+
+        print(f"{i}. {data['player']} - {data['score']} pts")

@@ -1,31 +1,32 @@
 from colorama import init, Fore
-from game import play_level
+from game import play_game
 from scoreboard import save_score, show_top_scores
 
-# Inisialisasi colorama
 init(autoreset=True)
 
+print(Fore.CYAN + "=== GUESS BATTLE GAME ===")
 
-def main():
-    print(Fore.BLUE + "=== GUESS BATTLE GAME ===")
+player_name = input("Masukkan nama pemain: ")
 
-    player_name = input("Masukkan nama pemain: ")
+print("\nPilih Level")
+print("1. Easy")
+print("2. Medium")
+print("3. Hard")
 
-    total_score = 0
+try:
+    level = int(input("Pilih level: "))
 
-    for level in range(1, 4):
-        score = play_level(level)
-        total_score += score
+    if level not in [1, 2, 3]:
+        print(Fore.RED + "Level harus 1, 2, atau 3!")
+    else:
+        score = play_game(level)
 
-    print(Fore.CYAN + f"\nGame selesai!")
-    print(Fore.GREEN + f"Total skor {player_name}: {total_score}")
+        print(Fore.GREEN + f"\nScore kamu: {score}")
 
-    # Simpan skor
-    save_score(player_name, total_score)
+        save_score(player_name, score)
 
-    # Tampilkan top score
-    show_top_scores()
+        print(Fore.YELLOW + "\n=== TOP SCORE ===")
+        show_top_scores()
 
-
-if __name__ == "__main__":
-    main()
+except ValueError:
+    print(Fore.RED + "Input harus angka!")
