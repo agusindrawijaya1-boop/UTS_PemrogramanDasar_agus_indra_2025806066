@@ -1,0 +1,20 @@
+=== LAPORAN ANALISIS TEKS ===
+
+Jumlah Baris : 3
+Jumlah Kata : 11
+Jumlah Vokal : 25
+Jumlah Konsonan : 37
+
+5 Kata Terbanyak:
+agus : 2
+hallo : 1
+dunia : 1
+saya : 1
+indra : 1
+
+=== GRAFIK FREKUENSI ===
+agus       ##
+hallo      #
+dunia      #
+saya       #
+indra      #
